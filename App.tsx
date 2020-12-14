@@ -1,21 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './src/utils/themes';
+import { useFonts } from '@use-expo/font';
+import  AppLoading  from 'expo-app-loading';
+import Router from './src/screens/Router'
+
+
+
+
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+const [isLoaded] = useFonts({
+  "RobotoRegular": require("./src/assets/fonts/Roboto-Regular.ttf")
+})
+if (!isLoaded) return <AppLoading></AppLoading>
+   else return (
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar barStyle="dark-content"></StatusBar>
+      <Router></Router>   
+      </ThemeProvider>
+    </SafeAreaProvider>
+  )
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
